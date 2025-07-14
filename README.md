@@ -47,3 +47,84 @@ _Sample output:_
   "day": "Wednesday",
   "date": "2025-07-17"
 }
+```
+---
+
+## ▶️ How to Use
+
+Follow these steps to set up and run the project locally:
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Najeeb-Ahm/groq-voice-event-parser.git
+cd groq-voice-event-parser
+```
+
+---
+
+### 2. Create and activate a virtual environment
+
+**Windows:**
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+**macOS/Linux:**
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+---
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 4. Set up environment variables
+
+Create a file named `.env` in the root folder and add your [Groq API key](https://console.groq.com/keys):
+
+```
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+---
+
+### 5. Run the Gradio app
+
+```bash
+python app.py
+```
+
+This will open the app in your browser.
+
+---
+
+### 6. Interact with the app
+
+- 🎙️ Record your voice or upload an `audio` file
+- 🧠 The app uses **Whisper (via Groq)** to transcribe your voice
+- 💬 Then it sends the transcript to a **Groq-hosted LLM** for understanding
+- 📦 You get a clean **JSON object** like this:
+
+```json
+{
+  "name": "Ali",
+  "time": "08:00",
+  "day": "Tuesday",
+  "date": "2025-07-15"
+}
+```
+
+### ✅ Coming Soon
+
+- 🗓️ Integration with Google Calendar API
