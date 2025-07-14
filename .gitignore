@@ -1,0 +1,56 @@
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Environment variables
+.env
+.env.local
+
+# OS-specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.cursor/
+*.swp
+*.swo
+
+# Gradio
+gradio_cached_examples/
+gradio_static/
+gradio_cache/
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Project specific
+exported_json/
+uploads/
+temp/
