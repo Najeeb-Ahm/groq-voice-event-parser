@@ -13,6 +13,7 @@
 - 🤖 **LLM-powered intent extraction** (name, time, day, date)
 - 🧠 Returns clean, structured **JSON output**
 - 🧪 Built with modular, production-friendly Python structure
+- 🔁 **Runs both Gradio & FastAPI** concurrently via threading
 - 🌐 Future: Schedule meetings automatically on Google Calendar
 
 ---
@@ -23,8 +24,11 @@
 |--------------|----------------------------------------|
 | **Python**   | Main programming language              |
 | **Gradio**   | Frontend for voice input and display   |
-| **Groq API** | Whisper + llama                        |
+| **FastAPI**  | Backend API server                     |
+| **Groq API** | Whisper + LLaMA                        |
 | **dotenv**   | Secure environment variable management |
+| **Uvicorn**  | ASGI server for FastAPI                |
+| **Threading**| Run Gradio + FastAPI together          |
 
 ---
 
@@ -102,7 +106,7 @@ GROQ_API_KEY=your_groq_api_key_here
 ### 5. Run the Gradio app
 
 ```bash
-python app.py
+python main.py
 ```
 
 This will open the app in your browser.
