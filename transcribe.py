@@ -7,9 +7,9 @@ def transcribe(filename):
     transcription = groq_client.audio.transcriptions.create(
       file=file,
       model="whisper-large-v3-turbo",
-      prompt="Specify context or spelling",
+      prompt="carefully get the information about the meeting from the audio.",
       response_format="verbose_json",
-      language="ur",
+      language="hi",
       temperature=0.0
     )
     #print("transcription created") ### It was to check if the transcription is created

@@ -1,6 +1,5 @@
 from config import groq_client
 from datetime import datetime
-import re
 import json
 
 
@@ -10,6 +9,7 @@ def get_json(text):
     date = datetime.now().strftime("%Y-%m-%d")
     response = groq_client.chat.completions.create(
         model="llama-3.3-70b-versatile",
+        temperature=0.0,
         messages=[
             {
                 "role": "system",
@@ -22,7 +22,7 @@ def get_json(text):
                     "name": "Name of the person mentioned in the text",
                     "time": "Time in 24-hour format (e.g., '05:30' for AM and '17:30' for PM)",
                     "day": "Day of the week (e.g., Monday, Tuesday) based on references like 'tomorrow', 'after 2 days', etc.",
-                    "date": "Exact date of the meeting in YYYY-MM-DD format, inferred from today's date which is {date} and the day is {day} and time is {time} so calculate the date accordingly if it is not mentioned in the text",
+                    "date": "Exact date of the meeting in YYYY-MM-DD format, inferred from today's date which is {date} and the day is {day} and time is {time} so calculate the date accordingly if it is not mentioned in the text, so if today is Monday and the text says 'tomorrow' then the date should be Tuesday's date. which will be today's date + 1 day, or if it says Tuesday then it should be Tuesday's date, or if it says 'day after tomorrow' then it should be today's date + 2 days, or if it says 'after 3 days' then it should be today's date + 3 days, etc.",
                  }
 
                 4. **Date and Time Reference**: You have access to the current **date: {date}, time = {time}, day = {day} **. Use this to calculate relative time expressions like "tomorrow", "day after tomorrow", or "after 3 days", etc.
@@ -38,13 +38,14 @@ def get_json(text):
             },
             {
                 "role": "user",
-                "content": f"Conver the message into English if it's any other language and then turn it into json schema: {text}, the current date is {date}, the current time is {time}, and the current day is {day}. so if the date is not given and only day is given you have to calculate accordingly, don't add markdown ``` just return json format, no other text, no explanation, just json., output should be in ENGLISH ONLY",
+                "content": f"Conver the message into English if it's any other language and then turn it into json schema: {text}, the current date is {date}, the current time is {time}, and the current day is {day}. so if the date is not given and only day is given you have to calculate accordingly, don't add markdown ``` just return json format, no other text, no explanation, just json., output should be in ENGLISH ONLY, you have to get the date right you already have {date}, {day}, {time} so calculate the date accordingly if it is not mentioned in the text.",
             }
         ])
     response_text = response.choices[0].message.content.strip()
     print("Response from Groq:", response_text)
     try:
         json_response = json.loads(response_text)
+        print(f"Debug Message: Day: {day}, Time: {time}, Date: {date}")
         print(type(json_response))
         return json_response
     except json.JSONDecodeError:
