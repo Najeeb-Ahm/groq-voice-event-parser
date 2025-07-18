@@ -1,7 +1,6 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 import tempfile, os , requests
-import os
 import uvicorn
 import threading
 import gradio as gr
