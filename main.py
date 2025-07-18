@@ -5,7 +5,7 @@ import os
 import uvicorn
 import threading
 import gradio as gr
-
+from config import WEBHOOK_URL
 
 app = FastAPI()
 
@@ -46,11 +46,27 @@ def process(audio_path):
 
         if response.ok:
             data = response.json()
-            return data["transcription"], data["json"]
+            transcription_data = data["transcription"]
+            json_data = data["json"]
+            print(f"Here is the actual type when sending it to Webhook: {type(json_data)}")
+            try:
+                webhook_url = WEBHOOK_URL
+                if not webhook_url:
+                    raise ValueError("WEBHOOK_URL is not set in the environment variables.")
+                if webhook_url:
+                    requests.post(webhook_url, json=json_data)
+                    print("Webhook Initiated")
+            except Exception as e:
+                print(f"Webhook error: {e}")
+            print("Transcription:", transcription_data)
+            print("JSON Data:", json_data)
+            return transcription_data, str(json_data)
+
         else:
-            return "Error", response.text
+            return "Failed to process audio", response.text
+
     except Exception as e:
-        return "Error", str(e)
+        return "Exception occurred", str(e)
     
 def start_fastapi():
     uvicorn.run(app, host="127.0.0.1", port=8000, log_level="info")
@@ -61,6 +77,8 @@ if __name__ == "__main__":
     # Start FastAPI in a separate thread
     threading.Thread(target=start_fastapi,daemon=True).start()
     print(f"FastAPI server started on http://127.0.0.1:8000")
+    import time
+    time.sleep(2)  # wait for FastAPI to be up
 
     #Start Gradio interface
     gr.Interface(

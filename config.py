@@ -7,6 +7,8 @@ load_dotenv()
 
 # Get the API key
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+WEBHOOK_URL = os.getenv("WEBHOOK_URL_n8n")
+#print(WEBHOOK_URL)
 
 # Check if the key is loaded correctly
 if not GROQ_API_KEY:
